@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "StudySnitch - AI Study Assistant",
+  "version": "2.0",
+  "description": "AI-powered Pomodoro timer with tab monitoring, attention tracking, and study analytics",
+  "permissions": ["tabs", "storage", "notifications"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "StudySnitch - Focus Assistant",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["monitor.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+# ───────────────
+# Environment variables
+.env
+.env.local
+.env.production
+.env.staging
+
+# ───────────────
+# Node dependencies
+node_modules/
+
+# ───────────────
+# Python virtual environments
+venv/
+backend/venv/
+*.venv/
+.env/
+.env*/
+
+# ───────────────
+# Python cache / compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ───────────────
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ───────────────
+# Coverage / testing
+coverage/
+.pytest_cache/
+*.cover
+*.coverage
+*.pytest_cache
+.pytest_cache/
+
+# ───────────────
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ───────────────
+# VS Code settings
+.vscode/

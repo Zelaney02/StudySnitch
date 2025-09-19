@@ -1,0 +1,20 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with gradient -->
+  <defs>
+    <linearGradient id="bg48" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#d946ef"/>
+    </linearGradient>
+  </defs>
+  <circle cx="24" cy="24" r="22" fill="url(#bg48)" stroke="#4f46e5" stroke-width="2"/>
+  
+  <!-- Eye icon for study monitoring -->
+  <ellipse cx="24" cy="24" rx="14" ry="8" fill="white" opacity="0.9"/>
+  <circle cx="24" cy="24" r="5" fill="#4f46e5"/>
+  <circle cx="26" cy="22" r="2" fill="white"/>
+  
+  <!-- Small clock/timer indicator -->
+  <circle cx="35" cy="13" r="6" fill="#22c55e" stroke="white" stroke-width="1"/>
+  <path d="M35 10 L35 13 L37 15" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>

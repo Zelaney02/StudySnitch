@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>StudySnitch</title>
+    <style>
+      body {
+        width: 350px;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          sans-serif;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .page {
+        display: none;
+      }
+
+      .page.active {
+        display: block;
+      }
+
+      h2 {
+        margin: 0 0 20px 0;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .status-card {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 15px 0;
+        text-align: center;
+      }
+
+      .timer-display {
+        font-size: 48px;
+        font-weight: bold;
+        margin: 20px 0;
+        text-align: center;
+        font-family: 'Courier New', monospace;
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      .section h4 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        background: #4caf50;
+        color: white;
+        padding: 12px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 8px 0;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background: #45a049;
+      }
+
+      button.secondary {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      button.secondary:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      button.danger {
+        background: #f44336;
+      }
+
+      button.danger:hover {
+        background: #da190b;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .nav-buttons button {
+        flex: 1;
+      }
+
+      .pomodoro-controls {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+      }
+
+      .pomodoro-controls button {
+        flex: 1;
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      .feature-list {
+        font-size: 12px;
+        line-height: 1.6;
+        opacity: 0.9;
+      }
+
+      .feature-list li {
+        margin: 5px 0;
+      }
+
+      .settings-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin: 10px 0;
+      }
+
+      .current-subject {
+        background: rgba(76, 175, 80, 0.2);
+        border-radius: 8px;
+        padding: 10px;
+        margin: 10px 0;
+        font-weight: 500;
+      }
+
+      .session-status {
+        font-size: 14px;
+        text-align: center;
+        margin: 10px 0;
+        opacity: 0.9;
+      }
+
+      label {
+        display: block;
+        margin: 10px 0 5px 0;
+        font-size: 14px;
+      }
+
+      input[type='checkbox'] {
+        width: auto;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Main Dashboard Page -->
+      <div id="mainPage" class="page active">
+        <h2>StudySnitch</h2>
+
+        <div class="status-card">
+          <div id="extensionStatus">
+            <div style="color: #4caf50; font-size: 18px">✓ Ready to Focus</div>
+            <div style="font-size: 12px; opacity: 0.8">
+              Powered by secure AI backend
+            </div>
+          </div>
+        </div>
+
+        <div class="timer-display" id="timerDisplay">25:00</div>
+
+        <div class="session-status" id="sessionStatus">
+          Ready to start a focus session
+        </div>
+
+        <div class="current-subject" id="currentSubject" style="display: none">
+          Studying: <span id="subjectText"></span>
+        </div>
+
+        <div class="pomodoro-controls">
+          <button id="startBtn">Start Focus</button>
+          <button id="pauseBtn" class="secondary" style="display: none">
+            Pause
+          </button>
+          <button id="stopBtn" class="danger" style="display: none">
+            Stop
+          </button>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="secondary nav-btn" data-page="setupPage">
+            Setup Session
+          </button>
+          <button class="secondary nav-btn" data-page="monitorPage">
+            Self Monitor
+          </button>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="secondary nav-btn" data-page="settingsPage">
+            Settings
+          </button>
+          <button class="secondary nav-btn" data-page="aboutPage">About</button>
+        </div>
+      </div>
+
+      <!-- Setup Page -->
+      <div id="setupPage" class="page">
+        <h2>Setup Study Session</h2>
+
+        <div class="section">
+          <h4>What are you studying?</h4>
+          <input
+            type="text"
+            id="studySubject"
+            placeholder="e.g., Linear Algebra, Physics, Biology..."
+          />
+          <textarea
+            id="studyDetails"
+            placeholder="Specific topics or tasks (optional)..."
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="section">
+          <h4>Session Type</h4>
+          <select id="sessionType">
+            <option value="25-5">
+              Classic Pomodoro (25min study / 5min break)
+            </option>
+            <option value="50-10">
+              Extended Session (50min study / 10min break)
+            </option>
+            <option value="15-5">Short Burst (15min study / 5min break)</option>
+            <option value="custom">Custom Duration</option>
+          </select>
+        </div>
+
+        <div class="section" id="customSection" style="display: none">
+          <div class="settings-grid">
+            <div>
+              <label>Study Minutes:</label>
+              <input
+                type="number"
+                id="customStudy"
+                value="25"
+                min="1"
+                max="180"
+              />
+            </div>
+            <div>
+              <label>Break Minutes:</label>
+              <input
+                type="number"
+                id="customBreak"
+                value="5"
+                min="1"
+                max="60"
+              />
+            </div>
+          </div>
+        </div>
+
+        <button id="saveSession">Save & Start Session</button>
+
+        <div class="nav-buttons">
+          <button class="secondary nav-btn" data-page="mainPage">
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Self Monitor Page -->
+      <div id="monitorPage" class="page">
+        <h2>Self Monitor</h2>
+
+        <div class="status-card">
+          <div style="font-size: 16px; margin-bottom: 10px">Camera Feed</div>
+          <div style="font-size: 12px; opacity: 0.8">
+            Monitor your focus and attention during study sessions
+          </div>
+        </div>
+
+        <button id="openCameraBtn">Open Camera Monitor</button>
+        <button id="openDashboardBtn" class="secondary">
+          Open Analytics Dashboard
+        </button>
+
+        <div class="section">
+          <h4>Quick Stats</h4>
+          <div style="font-size: 12px; opacity: 0.8">
+            • Camera system tracks attention levels<br />
+            • Audio alerts when distracted<br />
+            • Real-time analytics available<br />
+            • All data stored locally
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="secondary nav-btn" data-page="mainPage">
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Settings Page -->
+      <div id="settingsPage" class="page">
+        <h2>Settings</h2>
+
+        <div class="section">
+          <h4>Tab Monitoring</h4>
+          <label
+            ><input type="checkbox" id="enableTabBlocking" checked /> Block
+            non-study tabs</label
+          >
+          <label
+            ><input type="checkbox" id="enableNotifications" checked /> Show
+            notifications</label
+          >
+        </div>
+
+        <div class="section">
+          <h4>Audio Alerts</h4>
+          <label
+            ><input type="checkbox" id="enableAudio" checked /> Enable audio
+            warnings</label
+          >
+          <select id="audioVolume">
+            <option value="0.3">Low Volume</option>
+            <option value="0.7" selected>Medium Volume</option>
+            <option value="1.0">High Volume</option>
+          </select>
+        </div>
+
+        <div class="section">
+          <h4>Camera Monitoring</h4>
+          <label
+            ><input type="checkbox" id="enableCamera" checked /> Enable face
+            tracking</label
+          >
+          <label
+            ><input type="checkbox" id="enableAlerts" checked /> Alert when not
+            focused</label
+          >
+        </div>
+
+        <button id="saveSettings">Save Settings</button>
+
+        <div class="nav-buttons">
+          <button class="secondary nav-btn" data-page="mainPage">
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+
+      <!-- About Page -->
+      <div id="aboutPage" class="page">
+        <h2>About StudySnitch</h2>
+
+        <div class="section">
+          <h4>Features:</h4>
+          <ul class="feature-list">
+            <li>• AI-powered tab monitoring</li>
+            <li>• Pomodoro timer with customizable sessions</li>
+            <li>• Real-time attention tracking via camera</li>
+            <li>• Audio alerts for distractions</li>
+            <li>• Study analytics and insights</li>
+            <li>• Subject-specific focus blocking</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h4>Privacy & Security:</h4>
+          <ul class="feature-list">
+            <li>• Only tab titles are analyzed</li>
+            <li>• No personal data stored remotely</li>
+            <li>• Camera data processed locally</li>
+            <li>• Open source & transparent</li>
+          </ul>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="secondary nav-btn" data-page="mainPage">
+            ← Back to Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
