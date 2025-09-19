@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start StudySnitch ML Camera",
+			"type": "shell",
+			"command": "cd StudySnitch && python backend/ml.py",
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
